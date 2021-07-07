@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="cat" class="com.study.pojo.Cat"/>
+    <bean id="dog" class="com.study.pojo.Dog"/>
+    <bean id="people" class="com.study.pojo.People">
+        <property name="name" value="陈皮"/>
+        <property name="cat" ref="cat"/>
+        <property name="dog" ref="dog"/>
+    </bean>
+
+    <!--导入基于配置文件的自动装配文件-->
+    <import resource="bean1.xml"/> <!--基于配置的自动装配-->
+    <import resource="bean2.xml"/><!--基于注解的自动装配-->
+    <import resource="bean3.xml"/><!--基于注解的实例类扫描注册-->
+</beans>
