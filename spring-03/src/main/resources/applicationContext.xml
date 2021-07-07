@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--配置bean-->
+    <bean id="userService" class="com.study.service.UserServiceImpl"/>
+    <bean id="beforeLog" class="com.study.log.MyBeforeLog"/>
+    <bean id="afterLog" class="com.study.log.MyAfterLog"/>
+    <!--方式一：使用原生Spring API接口-->
+    <!--配置aop:需要导入aop的约束-->
+    <aop:config>
+        <!--切入点：expression表达式,execution(要执行的位置：* * * * *)       (修饰词 返回值 类名 方法名 参数)-->
+        <aop:pointcut id="pointcut" expression="execution(* com.study.service.UserServiceImpl.*(..))"/>
+        <!--执行环绕增加！-->
+        <aop:advisor advice-ref="beforeLog" pointcut-ref="pointcut"/>
+        <aop:advisor advice-ref="afterLog" pointcut-ref="pointcut"/>
+    </aop:config>
+
+    <!--引入并合并配置文件，方便分析-->
+    <import resource="bean1.xml"/>
+    <import resource="bean2.xml"/>
+</beans>
