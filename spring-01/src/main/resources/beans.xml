@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="hello" class="com.study.pojo.Hello">
+        <!--使用Spring来创建对象，在Spring这些都称为Bean
+            类型 变量名 = new 类型();
+            Hello hello = new Hello();
+            id = 变量名
+            class = new 的对象
+            properties  相当于给对象中的属性设置一个值
+        -->
+        <property name="str" value="Spring"/>
+    </bean>
+
+
+    <!--p命名空间注入本质是set注入，需要引入约束-->
+    <bean id="user" class="com.study.pojo.User" name="user2,user3" p:name="哇哇哇">
+        <!--使用set方法注入-->
+        <!--<property name="name" value="哈哈哈"/>-->
+        <!--使用有参构造方法注入-->
+        <!--<constructor-arg index="0" value="呵呵呵"/>-->
+        <!--使用类型注入-->
+        <!--<constructor-arg type="java.lang.String" value="呜呜呜"/>-->
+        <!--使用参数名来注入-->
+        <!--<constructor-arg name="name" value="嘻嘻嘻"/>-->
+    </bean>
+    <!--c标签注入的话是通过构造器注入，所以我们需要在实体类中加入有参及无参构造-->
+    <bean id="teacher" class="com.study.pojo.Teacher" c:_0="王老师" scope="prototype"/>
+    <import resource="bean1.xml"/>
+</beans>
