@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--1、编写数据源配置-->
+    <!--DataSource：使用Spring的数据源替换mybatis的配置 c3p0 dbcp druid 我们这里使用Spring提供的JDBC：org.springframework.jdbc.datasource-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://192.168.233.199:3306/mybatis?useUnicode=true&amp;characterEncoding=UTF-8"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+
+    <!--2.配置sqlSessionFactory-->
+    <!--原始mybatis需要先读取xml的inputStream，然后让SQLSessionFactoryBuild执行build方法生成sqlSessionFactory，现在交由Spring完成这个过程-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--绑定mybatis配置文件，等价于原本需要通过Resources加载的xml资源-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!--注册mapper类，等价于mybatis核心配置文件中的mappers注册标签-->
+        <property name="mapperLocations" value="classpath:com/study/mapper/*.xml"/>
+    </bean>
+
+    <!--3.配置SqlSessionTemplate：就是我们使用的sqlSession-->
+    <!--等价于我们通过sqlSessionFactory执行openSession方法创建sqlSession-->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <!--我们这里只能使用构造方法注入，因为他没有set方法-->
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+</beans>
